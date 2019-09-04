@@ -9,7 +9,8 @@ module Creek
 
     attr_reader :files,
                 :sheets,
-                :shared_strings
+                :shared_strings,
+                :disable_numerics
 
     DATE_1900 = Date.new(1899, 12, 30).freeze
     DATE_1904 = Date.new(1904, 1, 1).freeze
@@ -29,6 +30,7 @@ module Creek
       end
       @files = Zip::File.open(path)
       @shared_strings = SharedStrings.new(self)
+      @disable_numerics = options.fetch(:disable_numerics, false)
     end
 
     def sheets

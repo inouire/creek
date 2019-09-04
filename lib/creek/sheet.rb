@@ -13,7 +13,6 @@ module Creek
                 :rid,
                 :index
 
-
     def initialize book, name, sheetid, state, visible, rid, sheetfile
       @book = book
       @name = name
@@ -134,7 +133,8 @@ module Creek
     def converter_options
       @converter_options ||= {
         shared_strings: @book.shared_strings.dictionary,
-        base_date: @book.base_date
+        base_date: @book.base_date,
+        disable_numerics: @book.disable_numerics,
       }
     end
 

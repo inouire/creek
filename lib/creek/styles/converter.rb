@@ -45,7 +45,11 @@ module Creek
         when 's' # shared string
           options[:shared_strings][value.to_i]
         when 'n' # number
-          value.to_f
+          if options[:disable_numerics]
+            value.to_s
+          else
+            value.to_f
+          end
         when 'b'
           value.to_i == 1
         when 'str'
@@ -61,24 +65,44 @@ module Creek
         when :string
           value
         when :unsupported
-          convert_unknown(value)
+          if options[:disable_numerics]
+            value.to_s
+          else
+            convert_unknown(value)
+          end
         when :fixnum
-          value.to_i
+          if options[:disable_numerics]
+            value.to_s
+          else
+            value.to_i
+          end
         when :float, :percentage
-          value.to_f
+          if options[:disable_numerics]
+            value.to_s
+          else
+            value.to_f
+          end
         when :date
           convert_date(value, options)
         when :time, :date_time
           convert_datetime(value, options)
         when :bignum
-          convert_bignum(value)
+          if options[:disable_numerics]
+            value.to_s
+          else
+            convert_bignum(value)
+          end
 
         ## Nothing matched
         else
-          convert_unknown(value)
+          if options[:disable_numerics]
+            value.to_s
+          else
+            convert_unknown(value)
+          end
         end
       end
-      
+
       def self.convert_unknown(value)
         begin
           if value.nil? or value.empty?
