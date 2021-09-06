@@ -83,9 +83,17 @@ module Creek
             value.to_f
           end
         when :date
-          convert_date(value, options)
+          if options[:disable_numerics]
+            value.to_s
+          else
+            convert_date(value, options)
+          end
         when :time, :date_time
-          convert_datetime(value, options)
+          if options[:disable_numerics]
+            value.to_s
+          else
+            convert_datetime(value, options)
+          end
         when :bignum
           if options[:disable_numerics]
             value.to_s
